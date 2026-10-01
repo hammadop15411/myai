@@ -1,0 +1,1109 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENOVA AI</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f7f7f8;
+    color:#202123;
+    height:100vh;
+    overflow:hidden;
+}
+
+/* DARK MODE */
+body.dark{
+    background:#212121;
+    color:#ececec;
+}
+
+.app{
+    display:flex;
+    height:100vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:260px;
+    background:#171717;
+    color:white;
+    padding:16px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:800;
+    padding:8px 6px 18px;
+    letter-spacing:1px;
+}
+
+.new-chat{
+    width:100%;
+    padding:13px;
+    border:1px solid #444;
+    border-radius:10px;
+    background:#222;
+    color:white;
+    cursor:pointer;
+    font-size:15px;
+    text-align:left;
+}
+
+.new-chat:hover{
+    background:#2d2d2d;
+}
+
+.recent-title{
+    color:#999;
+    font-size:12px;
+    margin-top:12px;
+}
+
+.recent{
+    color:#ddd;
+    font-size:14px;
+    padding:10px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.recent:hover{
+    background:#2a2a2a;
+}
+
+.sidebar-bottom{
+    margin-top:auto;
+}
+
+.settings-btn{
+    width:100%;
+    padding:12px;
+    border:0;
+    border-radius:9px;
+    background:#2a2a2a;
+    color:white;
+    cursor:pointer;
+}
+
+/* MAIN */
+.main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    min-width:0;
+}
+
+/* TOPBAR */
+.topbar{
+    height:65px;
+    border-bottom:1px solid #ddd;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 22px;
+}
+
+body.dark .topbar{
+    background:#212121;
+    border-color:#3b3b3b;
+}
+
+.top-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.mobile-menu{
+    display:none;
+    background:none;
+    border:0;
+    font-size:22px;
+    cursor:pointer;
+}
+
+.title{
+    font-size:19px;
+    font-weight:700;
+}
+
+.status{
+    font-size:12px;
+    color:#16a34a;
+}
+
+.top-actions{
+    display:flex;
+    gap:8px;
+}
+
+.icon-btn{
+    width:40px;
+    height:40px;
+    border:1px solid #ddd;
+    border-radius:9px;
+    background:#fff;
+    cursor:pointer;
+    font-size:17px;
+}
+
+body.dark .icon-btn{
+    background:#2c2c2c;
+    color:white;
+    border-color:#444;
+}
+
+/* CHAT */
+.chat{
+    flex:1;
+    overflow-y:auto;
+    padding:30px 20px 160px;
+}
+
+.chat-inner{
+    width:100%;
+    max-width:900px;
+    margin:auto;
+}
+
+/* MESSAGE */
+.message{
+    display:flex;
+    margin:20px 0;
+    gap:12px;
+}
+
+.message.user{
+    justify-content:flex-end;
+}
+
+.avatar{
+    width:34px;
+    height:34px;
+    min-width:34px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.message.ai .avatar{
+    background:#111;
+    color:white;
+}
+
+.message.user .avatar{
+    background:#444;
+    color:white;
+    order:2;
+}
+
+.bubble{
+    max-width:75%;
+    padding:13px 16px;
+    border-radius:15px;
+    line-height:1.55;
+    white-space:pre-wrap;
+    word-wrap:break-word;
+}
+
+.message.ai .bubble{
+    background:#fff;
+    border:1px solid #e5e5e5;
+}
+
+.message.user .bubble{
+    background:#2d2d2d;
+    color:white;
+}
+
+body.dark .message.ai .bubble{
+    background:#2f2f2f;
+    border-color:#444;
+}
+
+body.dark .message.user .bubble{
+    background:#444;
+}
+
+/* WELCOME */
+.welcome{
+    text-align:center;
+    padding-top:13vh;
+}
+
+.welcome h1{
+    font-size:42px;
+    margin-bottom:12px;
+}
+
+.welcome p{
+    color:#777;
+    font-size:16px;
+}
+
+body.dark .welcome p{
+    color:#aaa;
+}
+
+/* INPUT AREA */
+.input-area{
+    position:fixed;
+    bottom:0;
+    left:260px;
+    right:0;
+    padding:18px 20px 22px;
+    background:linear-gradient(
+        transparent,
+        #f7f7f8 25%
+    );
+}
+
+body.dark .input-area{
+    background:linear-gradient(
+        transparent,
+        #212121 25%
+    );
+}
+
+.composer{
+    max-width:900px;
+    margin:auto;
+    background:white;
+    border:1px solid #d9d9d9;
+    border-radius:16px;
+    box-shadow:0 3px 15px rgba(0,0,0,.08);
+}
+
+body.dark .composer{
+    background:#2f2f2f;
+    border-color:#4a4a4a;
+}
+
+.input-row{
+    display:flex;
+    align-items:flex-end;
+    gap:8px;
+    padding:10px;
+}
+
+textarea{
+    flex:1;
+    resize:none;
+    min-height:45px;
+    max-height:150px;
+    border:0;
+    outline:0;
+    background:transparent;
+    color:inherit;
+    font-size:15px;
+    padding:11px;
+    font-family:inherit;
+}
+
+textarea::placeholder{
+    color:#999;
+}
+
+.tool-btn{
+    width:42px;
+    height:42px;
+    border:0;
+    border-radius:10px;
+    background:transparent;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.tool-btn:hover{
+    background:#eee;
+}
+
+body.dark .tool-btn:hover{
+    background:#444;
+}
+
+.send-btn{
+    width:44px;
+    height:44px;
+    border:0;
+    border-radius:11px;
+    background:#111;
+    color:white;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.send-btn:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
+body.dark .send-btn{
+    background:white;
+    color:#111;
+}
+
+.tools{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:0 12px 10px;
+    flex-wrap:wrap;
+}
+
+.tool-label{
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:6px 9px;
+    font-size:12px;
+    cursor:pointer;
+    background:#fff;
+}
+
+body.dark .tool-label{
+    background:#383838;
+    border-color:#555;
+}
+
+.tool-label.active{
+    background:#111;
+    color:white;
+}
+
+body.dark .tool-label.active{
+    background:white;
+    color:#111;
+}
+
+/* ATTACHMENT */
+.attachment{
+    display:none;
+    padding:8px 12px;
+    border-top:1px solid #eee;
+    font-size:13px;
+    color:#666;
+}
+
+body.dark .attachment{
+    border-color:#444;
+    color:#bbb;
+}
+
+.attachment.show{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.remove-file{
+    border:0;
+    background:none;
+    cursor:pointer;
+    font-size:16px;
+}
+
+/* MOBILE */
+@media(max-width:800px){
+
+    .sidebar{
+        position:fixed;
+        left:-280px;
+        top:0;
+        bottom:0;
+        z-index:20;
+        transition:.25s;
+    }
+
+    .sidebar.open{
+        left:0;
+    }
+
+    .mobile-menu{
+        display:block;
+    }
+
+    .input-area{
+        left:0;
+        padding:12px;
+    }
+
+    .chat{
+        padding-left:12px;
+        padding-right:12px;
+    }
+
+    .bubble{
+        max-width:82%;
+    }
+
+    .welcome h1{
+        font-size:32px;
+    }
+}
+
+.hidden{
+    display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+            ENOVA
+        </div>
+
+        <button class="new-chat" onclick="newChat()">
+            ＋ New Chat
+        </button>
+
+        <div class="recent-title">
+            RECENT CHATS
+        </div>
+
+        <div id="recentChats">
+            <div class="recent">
+                Welcome to ENOVA
+            </div>
+        </div>
+
+        <div class="sidebar-bottom">
+            <button class="settings-btn" onclick="showSettings()">
+                ⚙ Settings
+            </button>
+        </div>
+
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div class="top-left">
+
+                <button class="mobile-menu" onclick="toggleSidebar()">
+                    ☰
+                </button>
+
+                <div>
+                    <div class="title">ENOVA AI</div>
+                    <div class="status">● Online</div>
+                </div>
+
+            </div>
+
+            <div class="top-actions">
+
+                <button
+                    class="icon-btn"
+                    onclick="toggleTheme()"
+                    title="Theme"
+                >
+                    🌙
+                </button>
+
+            </div>
+
+        </header>
+
+        <!-- CHAT -->
+        <section class="chat" id="chat">
+
+            <div class="chat-inner" id="chatInner">
+
+                <div class="welcome" id="welcome">
+
+                    <h1>ENOVA AI</h1>
+
+                    <p>
+                        Your intelligent AI assistant.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- INPUT -->
+<div class="input-area">
+
+    <div class="composer">
+
+        <div
+            class="attachment"
+            id="attachment"
+        >
+            <span id="attachmentName"></span>
+
+            <button
+                class="remove-file"
+                onclick="clearAttachment()"
+            >
+                ✕
+            </button>
+        </div>
+
+        <div class="input-row">
+
+            <button
+                class="tool-btn"
+                onclick="document.getElementById('imageInput').click()"
+                title="Add image"
+            >
+                🖼️
+            </button>
+
+            <button
+                class="tool-btn"
+                onclick="document.getElementById('fileInput').click()"
+                title="Add file"
+            >
+                📎
+            </button>
+
+            <textarea
+                id="messageInput"
+                placeholder="Message ENOVA..."
+                rows="1"
+            ></textarea>
+
+            <button
+                class="send-btn"
+                id="sendBtn"
+                onclick="sendMessage()"
+            >
+                ↑
+            </button>
+
+        </div>
+
+        <div class="tools">
+
+            <button
+                class="tool-label"
+                id="thinkBtn"
+                onclick="toggleThink()"
+            >
+                🧠 Think Harder
+            </button>
+
+            <button
+                class="tool-label"
+                onclick="speakLast()"
+            >
+                🔊 Speak
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- HIDDEN FILE INPUTS -->
+
+<input
+    type="file"
+    id="imageInput"
+    accept="image/*"
+    class="hidden"
+    onchange="handleImage(event)"
+>
+
+<input
+    type="file"
+    id="fileInput"
+    class="hidden"
+    onchange="handleFile(event)"
+>
+
+
+<script>
+
+/* =========================================
+   ENOVA AI FRONTEND
+   ========================================= */
+
+const BACKEND_URL = "http://localhost:3000";
+
+let thinkingMode = false;
+let selectedFile = null;
+let lastAIReply = "";
+
+
+/* =========================================
+   ELEMENTS
+   ========================================= */
+
+const chatInner = document.getElementById("chatInner");
+const messageInput = document.getElementById("messageInput");
+const sendBtn = document.getElementById("sendBtn");
+const welcome = document.getElementById("welcome");
+
+
+/* =========================================
+   SEND MESSAGE
+   ========================================= */
+
+async function sendMessage(){
+
+    const text = messageInput.value.trim();
+
+    if(!text) return;
+
+    addMessage(text, "user");
+
+    messageInput.value = "";
+
+    messageInput.style.height = "auto";
+
+    sendBtn.disabled = true;
+
+    const thinkingMessage = addMessage(
+        thinkingMode
+            ? "🧠 ENOVA is thinking deeply..."
+            : "Thinking...",
+        "ai"
+    );
+
+    try{
+
+        const response = await fetch(
+            BACKEND_URL + "/api/chat",
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":"application/json"
+                },
+
+                body:JSON.stringify({
+                    message:text
+                })
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        /* REMOVE THINKING */
+        if(thinkingMessage){
+            thinkingMessage.remove();
+        }
+
+
+        /* SUCCESS */
+        if(response.ok && data.reply){
+
+            lastAIReply = data.reply;
+
+            addMessage(
+                data.reply,
+                "ai"
+            );
+
+        }
+
+        /* BACKEND ERROR */
+        else{
+
+            addMessage(
+                "⚠️ " +
+                (
+                    data.error ||
+                    "ENOVA could not get a response."
+                ),
+                "ai"
+            );
+
+        }
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        if(thinkingMessage){
+            thinkingMessage.remove();
+        }
+
+        addMessage(
+            "⚠️ ENOVA backend se connect nahi ho raha.\n\n" +
+            "Make sure `node server.js` is running.",
+            "ai"
+        );
+
+    }
+
+    finally{
+
+        sendBtn.disabled = false;
+
+        messageInput.focus();
+
+    }
+
+}
+
+
+/* =========================================
+   ADD MESSAGE
+   ========================================= */
+
+function addMessage(text, type){
+
+    if(welcome){
+        welcome.style.display = "none";
+    }
+
+
+    const message = document.createElement("div");
+
+    message.className =
+        "message " + type;
+
+
+    const avatar = document.createElement("div");
+
+    avatar.className = "avatar";
+
+    avatar.textContent =
+        type === "ai"
+            ? "E"
+            : "You";
+
+
+    const bubble = document.createElement("div");
+
+    bubble.className = "bubble";
+
+    bubble.textContent = text;
+
+
+    message.appendChild(avatar);
+
+    message.appendChild(bubble);
+
+    chatInner.appendChild(message);
+
+
+    setTimeout(() => {
+
+        const chat =
+            document.getElementById("chat");
+
+        chat.scrollTop = chat.scrollHeight;
+
+    },50);
+
+
+    return message;
+
+}
+
+
+/* =========================================
+   ENTER TO SEND
+   ========================================= */
+
+messageInput.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Enter" &&
+            !event.shiftKey
+        ){
+
+            event.preventDefault();
+
+            sendMessage();
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   AUTO RESIZE TEXTAREA
+   ========================================= */
+
+messageInput.addEventListener(
+    "input",
+    function(){
+
+        this.style.height = "auto";
+
+        this.style.height =
+            Math.min(this.scrollHeight,150) +
+            "px";
+
+    }
+);
+
+
+/* =========================================
+   THINK HARDER
+   ========================================= */
+
+function toggleThink(){
+
+    thinkingMode = !thinkingMode;
+
+    const button =
+        document.getElementById("thinkBtn");
+
+    button.classList.toggle(
+        "active",
+        thinkingMode
+    );
+
+}
+
+
+/* =========================================
+   SPEAK
+   ========================================= */
+
+function speakLast(){
+
+    if(!lastAIReply){
+
+        alert("ENOVA ne abhi koi reply nahi diya.");
+
+        return;
+
+    }
+
+
+    if(!("speechSynthesis" in window)){
+
+        alert("Your browser does not support speech.");
+
+        return;
+
+    }
+
+
+    window.speechSynthesis.cancel();
+
+
+    const speech =
+        new SpeechSynthesisUtterance(
+            lastAIReply
+        );
+
+    speech.lang = "en-US";
+
+    speech.rate = 1;
+
+    speech.pitch = 1;
+
+
+    window.speechSynthesis.speak(
+        speech
+    );
+
+}
+
+
+/* =========================================
+   IMAGE
+   ========================================= */
+
+function handleImage(event){
+
+    const file =
+        event.target.files[0];
+
+    if(!file) return;
+
+    selectedFile = file;
+
+    showAttachment(
+        "🖼️ " + file.name
+    );
+
+}
+
+
+/* =========================================
+   FILE
+   ========================================= */
+
+function handleFile(event){
+
+    const file =
+        event.target.files[0];
+
+    if(!file) return;
+
+    selectedFile = file;
+
+    showAttachment(
+        "📎 " + file.name
+    );
+
+}
+
+
+/* =========================================
+   SHOW ATTACHMENT
+   ========================================= */
+
+function showAttachment(name){
+
+    const box =
+        document.getElementById(
+            "attachment"
+        );
+
+    const nameBox =
+        document.getElementById(
+            "attachmentName"
+        );
+
+    nameBox.textContent = name;
+
+    box.classList.add("show");
+
+}
+
+
+/* =========================================
+   CLEAR ATTACHMENT
+   ========================================= */
+
+function clearAttachment(){
+
+    selectedFile = null;
+
+    document.getElementById(
+        "attachment"
+    ).classList.remove("show");
+
+    document.getElementById(
+        "imageInput"
+    ).value = "";
+
+    document.getElementById(
+        "fileInput"
+    ).value = "";
+
+}
+
+
+/* =========================================
+   NEW CHAT
+   ========================================= */
+
+function newChat(){
+
+    chatInner.innerHTML = "";
+
+    const newWelcome =
+        document.createElement("div");
+
+    newWelcome.className = "welcome";
+
+    newWelcome.innerHTML = `
+        <h1>ENOVA AI</h1>
+        <p>Your intelligent AI assistant.</p>
+    `;
+
+    chatInner.appendChild(newWelcome);
+
+    lastAIReply = "";
+
+    clearAttachment();
+
+    messageInput.value = "";
+
+    messageInput.focus();
+
+}
+
+
+/* =========================================
+   THEME
+   ========================================= */
+
+function toggleTheme(){
+
+    document.body.classList.toggle("dark");
+
+}
+
+
+/* =========================================
+   MOBILE SIDEBAR
+   ========================================= */
+
+function toggleSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+}
+
+
+/* =========================================
+   SETTINGS
+   ========================================= */
+
+function showSettings(){
+
+    alert(
+        "ENOVA Settings\n\n" +
+        "More settings will be added soon."
+    );
+
+}
+
+
+/* =========================================
+   START
+   ========================================= */
+
+messageInput.focus();
+
+</script>
+
+</body>
+</html>
+```

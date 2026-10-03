@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ENOVA AI</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    background:#000 !important;
+    color:#fff;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+}
+
+body{
+    overflow:hidden;
+}
+
+/* APP */
+
+.app{
+    width:100%;
+    height:100vh;
+    display:flex;
+    background:#000 !important;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:255px;
+    height:100vh;
+    background:#050505 !important;
+    border-right:1px solid #1c1c1c;
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+}
+
+.logo{
+    height:55px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:0 9px;
+}
+
+.logoIcon{
+    width:35px;
+    height:35px;
+    background:#fff;
+    color:#000;
+    border-radius:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+}
+
+.logoText{
+    font-size:20px;
+    font-weight:700;
+}
+
+.newChat{
+    margin-top:10px;
+    height:45px;
+    border:1px solid #292929;
+    border-radius:12px;
+    background:#101010;
+    color:#fff;
+    cursor:pointer;
+    text-align:left;
+    padding:0 15px;
+    font-size:14px;
+}
+
+.newChat:hover{
+    background:#181818;
+}
+
+.recentTitle{
+    color:#666;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin:25px 10px 9px;
+}
+
+.recent{
+    flex:1;
+    overflow:auto;
+}
+
+.recentItem{
+    color:#999;
+    padding:10px;
+    border-radius:9px;
+    font-size:13px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.recentItem:hover{
+    background:#111;
+    color:#fff;
+}
+
+.bottom{
+    border-top:1px solid #191919;
+    padding-top:10px;
+}
+
+.sideBtn{
+    width:100%;
+    height:40px;
+    background:none;
+    border:0;
+    color:#999;
+    text-align:left;
+    padding:0 10px;
+    cursor:pointer;
+    border-radius:9px;
+}
+
+.sideBtn:hover{
+    background:#111;
+    color:#fff;
+}
+
+/* MAIN */
+
+.main{
+    flex:1;
+    min-width:0;
+    height:100vh;
+    background:#000 !important;
+    display:flex;
+    flex-direction:column;
+}
+
+/* TOP */
+
+.top{
+    height:64px;
+    border-bottom:1px solid #171717;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 24px;
+}
+
+.model{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-size:14px;
+    font-weight:600;
+}
+
+.onlineDot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:0 0 10px #fff;
+}
+
+.status{
+    color:#666;
+    font-size:12px;
+}
+
+/* CHAT */
+
+.chat{
+    flex:1;
+    overflow-y:auto;
+    background:#000 !important;
+}
+
+.chatInner{
+    width:min(900px,100%);
+    margin:auto;
+    padding:30px 25px 150px;
+}
+
+/* WELCOME */
+
+.welcome{
+    height:calc(100vh - 220px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+}
+
+.welcomeLogo{
+    width:65px;
+    height:65px;
+    border-radius:20px;
+    background:#fff;
+    color:#000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:28px;
+    font-weight:800;
+    margin-bottom:22px;
+    box-shadow:0 0 50px rgba(255,255,255,.08);
+}
+
+.welcome h1{
+    font-size:35px;
+    letter-spacing:-1.5px;
+}
+
+.welcome p{
+    margin-top:10px;
+    color:#666;
+    font-size:14px;
+}
+
+/* MESSAGE */
+
+.message{
+    display:flex;
+    gap:14px;
+    margin:28px 0;
+    animation:appear .25s ease;
+}
+
+@keyframes appear{
+    from{
+        opacity:0;
+        transform:translateY(7px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.avatar{
+    width:32px;
+    height:32px;
+    flex-shrink:0;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:800;
+}
+
+.userAvatar{
+    background:#222;
+    color:#fff;
+}
+
+.aiAvatar{
+    background:#fff;
+    color:#000;
+}
+
+.content{
+    min-width:0;
+    flex:1;
+}
+
+.name{
+    color:#666;
+    font-size:12px;
+    margin-bottom:7px;
+}
+
+.text{
+    color:#f5f5f5;
+    font-size:15px;
+    line-height:1.75;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+}
+
+/* IMAGE */
+
+.uploadedImage{
+    display:block;
+    max-width:330px;
+    max-height:330px;
+    border-radius:14px;
+    border:1px solid #292929;
+    margin-top:9px;
+}
+
+/* =========================
+   BLUE DOT WORKING
+========================= */
+
+.working{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin:30px 0;
+    animation:appear .2s ease;
+}
+
+.workingDots{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    height:30px;
+}
+
+.workingDots span{
+    display:block;
+    width:8px;
+    height:8px;
+    min-width:8px;
+    min-height:8px;
+    border-radius:50%;
+    background:#2997ff !important;
+    box-shadow:0 0 12px rgba(41,151,255,.9);
+    animation:bluePulse 1.1s infinite ease-in-out;
+}
+
+.workingDots span:nth-child(1){
+    animation-delay:0s;
+}
+
+.workingDots span:nth-child(2){
+    animation-delay:.18s;
+}
+
+.workingDots span:nth-child(3){
+    animation-delay:.36s;
+}
+
+@keyframes bluePulse{
+    0%,100%{
+        opacity:.25;
+        transform:scale(.7);
+        box-shadow:0 0 3px rgba(41,151,255,.2);
+    }
+
+    45%{
+        opacity:1;
+        transform:scale(1.25);
+        box-shadow:0 0 16px rgba(41,151,255,1);
+    }
+}
+
+/* INPUT */
+
+.inputArea{
+    position:fixed;
+    bottom:0;
+    left:255px;
+    right:0;
+    padding:25px 20px 18px;
+    background:linear-gradient(
+        transparent,
+        #000 35%,
+        #000 100%
+    );
+    z-index:10;
+}
+
+.inputBox{
+    width:min(850px,100%);
+    margin:auto;
+    background:#0d0d0d;
+    border:1px solid #292929;
+    border-radius:18px;
+    transition:.2s;
+}
+
+.inputBox:focus-within{
+    border-color:#444;
+}
+
+.preview{
+    display:none;
+    padding:10px 12px 0;
+}
+
+.previewInner{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:6px 9px;
+    border-radius:9px;
+    background:#181818;
+    border:1px solid #292929;
+    color:#aaa;
+    font-size:11px;
+}
+
+.previewInner img{
+    width:40px;
+    height:40px;
+    border-radius:7px;
+    object-fit:cover;
+}
+
+.remove{
+    background:none;
+    border:0;
+    color:#777;
+    cursor:pointer;
+    font-size:17px;
+}
+
+.textRow{
+    display:flex;
+    align-items:flex-end;
+    padding:14px 14px 7px;
+}
+
+#input{
+    flex:1;
+    min-height:28px;
+    max-height:150px;
+    resize:none;
+    outline:none;
+    border:0;
+    background:transparent;
+    color:#fff;
+    font-family:inherit;
+    font-size:15px;
+    line-height:1.5;
+}
+
+#input::placeholder{
+    color:#666;
+}
+
+.controls{
+    height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 9px 8px 10px;
+}
+
+.tools{
+    display:flex;
+    align-items:center;
+    gap:4px;
+}
+
+.tool{
+    height:32px;
+    min-width:32px;
+    border:1px solid transparent;
+    border-radius:8px;
+    background:transparent;
+    color:#888;
+    cursor:pointer;
+}
+
+.tool:hover{
+    background:#181818;
+    border-color:#292929;
+    color:#fff;
+}
+
+.think{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    color:#777;
+    font-size:11px;
+    padding:5px;
+}
+
+.think input{
+    accent-color:#fff;
+}
+
+.send{
+    width:36px;
+    height:36px;
+    border:0;
+    border-radius:10px;
+    background:#fff;
+    color:#000;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.send:disabled{
+    opacity:.3;
+    cursor:not-allowed;
+}
+
+/* MOBILE */
+
+.mobileBtn{
+    display:none;
+    width:35px;
+    height:35px;
+    border-radius:9px;
+    border:1px solid #292929;
+    background:#0d0d0d;
+    color:#fff;
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+        position:fixed;
+        z-index:100;
+        left:-270px;
+        transition:.25s;
+        box-shadow:20px 0 60px rgba(0,0,0,.8);
+    }
+
+    .sidebar.open{
+        left:0;
+    }
+
+    .mobileBtn{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+    .top{
+        padding:0 12px;
+    }
+
+    .status{
+        display:none;
+    }
+
+    .inputArea{
+        left:0;
+        padding:18px 10px 10px;
+    }
+
+    .chatInner{
+        padding:25px 14px 145px;
+    }
+
+    .welcome h1{
+        font-size:28px;
+    }
+
+    .message{
+        gap:10px;
+    }
+
+    .text{
+        font-size:14px;
+    }
+
+    .think span{
+        display:none;
+    }
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+    width:6px;
+}
+
+::-webkit-scrollbar-track{
+    background:#000;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#252525;
+    border-radius:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+        <div class="logoIcon">E</div>
+        <div class="logoText">ENOVA</div>
+    </div>
+
+    <button class="newChat" onclick="newChat()">
+        ＋ &nbsp; New chat
+    </button>
+
+    <div class="recentTitle">Recent chats</div>
+
+    <div class="recent" id="recent">
+        <div class="recentItem">
+            No recent chats
+        </div>
+    </div>
+
+    <div class="bottom">
+
+        <button class="sideBtn">
+            ◐ &nbsp; Theme
+        </button>
+
+        <button class="sideBtn">
+            ⚙ &nbsp; Settings
+        </button>
+
+        <button class="sideBtn" onclick="newChat()">
+            ⌫ &nbsp; Clear chat
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+    <header class="top">
+
+        <div style="display:flex;align-items:center;gap:12px;">
+
+            <button
+                class="mobileBtn"
+                onclick="toggleSidebar()"
+            >
+                ☰
+            </button>
+
+            <div class="model">
+
+                <div class="onlineDot"></div>
+
+                ENOVA AI
+
+            </div>
+
+        </div>
+
+        <div class="status" id="status">
+            Ready
+        </div>
+
+    </header>
+
+
+    <!-- CHAT -->
+
+    <section class="chat" id="chat">
+
+        <div class="chatInner" id="chatInner">
+
+            <div class="welcome" id="welcome">
+
+                <div class="welcomeLogo">
+                    E
+                </div>
+
+                <h1>
+                    How can I help you?
+                </h1>
+
+                <p>
+                    Ask ENOVA anything.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- INPUT -->
+
+    <div class="inputArea">
+
+        <div class="inputBox">
+
+            <div
+                class="preview"
+                id="preview"
+            >
+                <div
+                    class="previewInner"
+                    id="previewInner"
+                ></div>
+            </div>
+
+            <div class="textRow">
+
+                <textarea
+                    id="input"
+                    rows="1"
+                    placeholder="Message ENOVA..."
+                ></textarea>
+
+            </div>
+
+            <div class="controls">
+
+                <div class="tools">
+
+                    <button
+                        class="tool"
+                        onclick="imageInput.click()"
+                        title="Upload image"
+                    >
+                        📷
+                    </button>
+
+                    <button
+                        class="tool"
+                        onclick="fileInput.click()"
+                        title="Attach file"
+                    >
+                        📎
+                    </button>
+
+                    <label class="think">
+
+                        <input
+                            type="checkbox"
+                            id="think"
+                        >
+
+                        <span>
+                            Think harder
+                        </span>
+
+                    </label>
+
+                </div>
+
+                <button
+                    class="send"
+                    id="send"
+                    onclick="sendMessage()"
+                >
+                    ↑
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+</div>
+
+
+<input
+    type="file"
+    id="imageInput"
+    accept="image/*"
+    hidden
+>
+
+<input
+    type="file"
+    id="fileInput"
+    hidden
+>
+
+
+<script>
+
+/* ============================
+   BACKEND
+============================ */
+
+const API_URL =
+    "http://localhost:3000/api/chat";
+
+
+/* ============================
+   VARIABLES
+============================ */
+
+const input =
+    document.getElementById("input");
+
+const send =
+    document.getElementById("send");
+
+const chat =
+    document.getElementById("chat");
+
+const chatInner =
+    document.getElementById("chatInner");
+
+const welcome =
+    document.getElementById("welcome");
+
+const status =
+    document.getElementById("status");
+
+const imageInput =
+    document.getElementById("imageInput");
+
+const fileInput =
+    document.getElementById("fileInput");
+
+const preview =
+    document.getElementById("preview");
+
+const previewInner =
+    document.getElementById("previewInner");
+
+let selectedImage = null;
+
+let busy = false;
+
+
+/* ============================
+   AUTO TEXTAREA
+============================ */
+
+input.addEventListener(
+    "input",
+    function(){
+
+        this.style.height = "auto";
+
+        this.style.height =
+            Math.min(
+                this.scrollHeight,
+                150
+            ) + "px";
+
+    }
+);
+
+
+/* ============================
+   ENTER
+============================ */
+
+input.addEventListener(
+    "keydown",
+    function(e){
+
+        if(
+            e.key === "Enter" &&
+            !e.shiftKey
+        ){
+
+            e.preventDefault();
+
+            sendMessage();
+
+        }
+
+    }
+);
+
+
+/* ============================
+   USER MESSAGE
+============================ */
+
+function addUserMessage(
+    text,
+    imageURL
+){
+
+    welcome.style.display = "none";
+
+    const box =
+        document.createElement("div");
+
+    box.className =
+        "message";
+
+    let image = "";
+
+    if(imageURL){
+
+        image =
+        `<img
+            class="uploadedImage"
+            src="${imageURL}"
+        >`;
+
+    }
+
+    box.innerHTML = `
+
+        <div class="avatar userAvatar">
+            Y
+        </div>
+
+        <div class="content">
+
+            <div class="name">
+                You
+            </div>
+
+            <div class="text">
+                ${escapeHTML(text)}
+            </div>
+
+            ${image}
+
+        </div>
+    `;
+
+    chatInner.appendChild(box);
+
+    scrollBottom();
+
+}
+
+
+/* ============================
+   WORKING DOT
+============================ */
+
+function showWorking(){
+
+    const old =
+        document.getElementById(
+            "working"
+        );
+
+    if(old) old.remove();
+
+    const box =
+        document.createElement("div");
+
+    box.id =
+        "working";
+
+    box.className =
+        "working";
+
+    box.innerHTML = `
+
+        <div class="avatar aiAvatar">
+            E
+        </div>
+
+        <div class="workingDots">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </div>
+
+    `;
+
+    chatInner.appendChild(box);
+
+    scrollBottom();
+
+}
+
+
+/* ============================
+   REMOVE WORKING
+============================ */
+
+function hideWorking(){
+
+    const box =
+        document.getElementById(
+            "working"
+        );
+
+    if(box){
+
+        box.remove();
+
+    }
+
+}
+
+
+/* ============================
+   AI MESSAGE
+============================ */
+
+function createAIMessage(){
+
+    const box =
+        document.createElement("div");
+
+    box.className =
+        "message";
+
+    box.innerHTML = `
+
+        <div class="avatar aiAvatar">
+            E
+        </div>
+
+        <div class="content">
+
+            <div class="name">
+                ENOVA
+            </div>
+
+            <div class="text"></div>
+
+        </div>
+
+    `;
+
+    chatInner.appendChild(box);
+
+    return box.querySelector(".text");
+
+}
+
+
+/* ============================
+   TYPE EFFECT
+============================ */
+
+async function typeText(
+    element,
+    text
+){
+
+    const words =
+        text.split(/(\s+)/);
+
+    for(
+        const word of words
+    ){
+
+        element.appendChild(
+            document.createTextNode(word)
+        );
+
+        scrollBottom();
+
+        await sleep(
+            word.trim()
+                ? 22
+                : 5
+        );
+
+    }
+
+}
+
+
+/* ============================
+   SEND
+============================ */
+
+async function sendMessage(){
+
+    if(busy) return;
+
+    const message =
+        input.value.trim();
+
+    if(
+        !message &&
+        !selectedImage
+    ){
+
+        input.focus();
+
+        return;
+
+    }
+
+    busy = true;
+
+    send.disabled = true;
+
+    status.textContent =
+        "Working";
+
+
+    let imageURL = null;
+
+    if(selectedImage){
+
+        imageURL =
+            URL.createObjectURL(
+                selectedImage
+            );
+
+    }
+
+
+    addUserMessage(
+        message || "Image",
+        imageURL
+    );
+
+
+    let finalMessage =
+        message;
+
+
+    if(
+        document.getElementById(
+            "think"
+        ).checked
+    ){
+
+        finalMessage =
+        "Think carefully and give an accurate detailed answer to this request:\n\n"
+        + message;
+
+    }
+
+
+    input.value = "";
+
+    input.style.height =
+        "auto";
+
+
+    removeAttachment();
+
+
+    /*
+       IMPORTANT:
+       BLUE DOT APPEARS
+       BEFORE FETCH
+    */
+
+    showWorking();
+
+
+    try{
+
+        const response =
+            await fetch(
+                API_URL,
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+                        message:
+                            finalMessage
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        hideWorking();
+
+
+        if(!response.ok){
+
+            throw new Error(
+                data.error ||
+                "Server error"
+            );
+
+        }
+
+
+        status.textContent =
+            "Ready";
+
+
+        const aiText =
+            createAIMessage();
+
+
+        await typeText(
+            aiText,
+            data.reply ||
+            "I couldn't generate a response."
+        );
+
+
+        saveRecent(
+            message
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+        hideWorking();
+
+
+        status.textContent =
+            "Connection error";
+
+
+        const aiText =
+            createAIMessage();
+
+
+        await typeText(
+            aiText,
+            "I couldn't connect to the ENOVA AI server. Please make sure your backend is running."
+        );
+
+    }
+
+
+    busy = false;
+
+    send.disabled = false;
+
+    input.focus();
+
+}
+
+
+/* ============================
+   IMAGE
+============================ */
+
+imageInput.addEventListener(
+    "change",
+    function(){
+
+        const file =
+            this.files[0];
+
+        if(!file) return;
+
+        selectedImage =
+            file;
+
+        const url =
+            URL.createObjectURL(
+                file
+            );
+
+        previewInner.innerHTML = `
+
+            <img src="${url}">
+
+            <span>
+                ${escapeHTML(
+                    file.name
+                )}
+            </span>
+
+            <button
+                class="remove"
+                onclick="removeAttachment()"
+            >
+                ×
+            </button>
+
+        `;
+
+        preview.style.display =
+            "block";
+
+    }
+);
+
+
+/* ============================
+   FILE
+============================ */
+
+fileInput.addEventListener(
+    "change",
+    function(){
+
+        const file =
+            this.files[0];
+
+        if(!file) return;
+
+        previewInner.innerHTML = `
+
+            <span style="font-size:18px">
+                📎
+            </span>
+
+            <span>
+                ${escapeHTML(
+                    file.name
+                )}
+            </span>
+
+            <button
+                class="remove"
+                onclick="removeAttachment()"
+            >
+                ×
+            </button>
+
+        `;
+
+        preview.style.display =
+            "block";
+
+    }
+);
+
+
+/* ============================
+   REMOVE FILE
+============================ */
+
+function removeAttachment(){
+
+    selectedImage = null;
+
+    imageInput.value = "";
+
+    fileInput.value = "";
+
+    preview.style.display =
+        "none";
+
+    previewInner.innerHTML =
+        "";
+
+}
+
+
+/* ============================
+   NEW CHAT
+============================ */
+
+function newChat(){
+
+    chatInner.innerHTML = `
+
+        <div
+            class="welcome"
+            id="welcome"
+        >
+
+            <div class="welcomeLogo">
+                E
+            </div>
+
+            <h1>
+                How can I help you?
+            </h1>
+
+            <p>
+                Ask ENOVA anything.
+            </p>
+
+        </div>
+
+    `;
+
+    status.textContent =
+        "Ready";
+
+    input.value = "";
+
+    removeAttachment();
+
+    input.focus();
+
+}
+
+
+/* ============================
+   RECENT
+============================ */
+
+function saveRecent(text){
+
+    if(!text) return;
+
+    const recent =
+        document.getElementById(
+            "recent"
+        );
+
+    if(
+        recent.children.length === 1 &&
+        recent.children[0]
+            .textContent
+            .includes(
+                "No recent"
+            )
+    ){
+
+        recent.innerHTML =
+            "";
+
+    }
+
+    const item =
+        document.createElement(
+            "div"
+        );
+
+    item.className =
+        "recentItem";
+
+    item.textContent =
+        text;
+
+    recent.prepend(item);
+
+}
+
+
+/* ============================
+   MOBILE SIDEBAR
+============================ */
+
+function toggleSidebar(){
+
+    document
+        .getElementById(
+            "sidebar"
+        )
+        .classList.toggle(
+            "open"
+        );
+
+}
+
+
+/* ============================
+   HELPERS
+============================ */
+
+function scrollBottom(){
+
+    requestAnimationFrame(
+        () => {
+
+            chat.scrollTop =
+                chat.scrollHeight;
+
+        }
+    );
+
+}
+
+
+function sleep(ms){
+
+    return new Promise(
+        resolve =>
+            setTimeout(
+                resolve,
+                ms
+            )
+    );
+
+}
+
+
+function escapeHTML(str){
+
+    return String(str)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
